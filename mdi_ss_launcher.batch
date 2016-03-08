@@ -1,0 +1,33 @@
+;mdi_ss_launcher.batch
+;IDL batch file to launch mdi_ss_launcher.pro from a script
+;SolarSoftWare with vso, soho, and ontology packages must be loaded.
+;
+;To run the batch file on an idl session -> @mdi_ss_launcher.batch
+;
+;X.Bonnin, 01-AUG-2011
+
+!QUIET=1
+
+;Define paths
+ss_dir = '/Users/xavier/LESIA/Solaire/HELIO/HFC/Features' ;-> Main directory
+data_dir = ss_dir + '/Data/SOHO/MDI' 							   ;-> SOHO/MDI local data directory
+mdiss_dir = ss_dir + '/Codes/MDISS' 							   ;-> Code source directory
+output_dir = mdiss_dir + '/products' 							   ;-> Products (png, csv, fits, etc.) directory
+
+;Add extra directories to !PATH variable 
+pathsep = PATH_SEP(/SEARCH_PATH) 
+!PATH = expand_path('+'+mdiss_dir+'/src/aux') + pathsep + !PATH
+!PATH = expand_path('+'+mdiss_dir+'/src/io') + pathsep + !PATH
+!PATH = expand_path('+'+mdiss_dir+'/src/ssd') + pathsep + !PATH
+
+
+starttime = '2004-01-01'
+endtime = '2004-12-31'
+
+write_png = 2
+
+mdi_ss_launcher,starttime=starttime,endtime=endtime,$
+			    data_dir=data_dir,output_dir=output_dir,$
+				write_png=write_png, $
+			    /UNPROCESSED,/NO_SHOW, $
+                /DOWNLOAD_DATA
